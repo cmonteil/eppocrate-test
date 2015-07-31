@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html  ng-app="sampleApp">
+<head>
+  <title>eppocrate -test</title>
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+<body  ng-controller="SampleCtrl">
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>search</h1>
+    <form action="/search" method="GET" class="col-sm-4 col-sm-offset-4" >
+        <input class="form-control" name="q" value="<%= query_string %>" />
+        <br>
+        <button class="btn btn-primary" type="submit">Search</button>
+        <a href="/" class="btn btn-default">Add Content</a>
+      </form>
+  </div>
+</div>
+<div class="container">
+  <% if (results) { %>
+  <div class="row">
+    <div class="col-md-12">  
+      <h3>Elasticsearch Results</h3>    
+      <div class="list-group">      
+        <% for(var i=0; i<results.length; i++) {%>
+        <a href="#" class="list-group-item">
+          <h4 class="list-group-item-heading"><%= results[i]["_source"].title %></h4>
+          <p class="list-group-item-text"><%= results[i]["_source"].body %></p>
+
+          <% var tags = results[i]["_source"].tags.split(",") %>
+          <% for(var t=0; t<tags.length; t++) {%>
+            <span class="label label-info"><%= tags[t] %></span>
+          <% } %>
+        </a>
+        <% } %>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <h3>JSON Results</h3>
+      <pre>
+        <%= JSON.stringify(results, null, 4) %>
+      </pre>
+    </div>    
+  </div>
+  <% } %>
+</div>
+</body>
+</html>

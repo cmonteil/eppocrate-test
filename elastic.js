@@ -1,5 +1,6 @@
 // http://www.waltza.com/2015/07/16/firebase-elasticsearch-dummy-walkthrough/
 // export SEARCHBOX_URL=http://paas:d7579a8b7c6c6bf7b3e92a3592ad90b8@dwalin-us-east-1.searchly.com
+// https://site:01b5f7d2909c14248c6f81bf61625158@dwalin-us-east-1.searchly.com
 // export FIREBASE_URL=http://eppocratetest.firebaseio.com
 
 var Firebase = require('firebase');

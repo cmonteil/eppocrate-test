@@ -1,3 +1,4 @@
+// http://www.waltza.com/2015/07/16/firebase-elasticsearch-dummy-walkthrough/
 // export SEARCHBOX_URL=http://paas:d7579a8b7c6c6bf7b3e92a3592ad90b8@dwalin-us-east-1.searchly.com
 // export FIREBASE_URL=http://eppocratetest.firebaseio.com
 
@@ -9,6 +10,7 @@ var config = {
     elasticSearchUrl: process.env.SEARCHBOX_URL
 }
 var rootRef = new Firebase(config.firebaseUrl);
+var tagsRef = new Firebase("https://eppocratetest.firebaseio.com/tags");
 
 var client = new elasticsearch.Client({
     host: config.elasticSearchUrl
@@ -21,6 +23,12 @@ usersRef.on('child_changed', upsert);
 usersRef.on('child_removed', remove);
 
 function upsert(snapshot){
+
+    var tags = snapshot.val().tags.split(",");
+    for(var t=0; t<tags.length; t++) {
+        tagsRef.child(tags[t]).push(snapshot.key());
+    }
+
     client.index({
         index: 'firebase',
         type: 'articles',
